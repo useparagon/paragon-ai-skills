@@ -17,13 +17,14 @@ Portal to authenticate your users, and get started with ActionKit and/or Managed
 to build any integration use case.
 
 ## Getting Started
-
+The `npx skills` CLI by vercel automatically adds the Paragon Skill for the most popular agentis IDEs.
+See the manual installation section if needed.
 ```
 npx skills add useparagon/paragon-skills
 ```
 
 
-## Manual installation
+### Manual installation
 1. Clone this repo
 
 2. Copy the `skills/paragon-skill` directory
@@ -46,10 +47,3 @@ npx skills add useparagon/paragon-skills
 ```
 
 4. Paste the `paragon-skill` directory into your IDE's `skills` directory
-
-## Future additions
-Advanced use cases:
-- [ ] Trigger API
-- [ ] Proxy
-- [ ] Custom settings like dropdowns and field mappings
-- [ ] Headless Connect Portal

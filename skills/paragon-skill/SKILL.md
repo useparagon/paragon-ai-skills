@@ -1,5 +1,5 @@
 ---
-name: build-with-paragon
+name: paragon-skill
 description: Skill for building integrations with Paragon's API and SDK
 ---
 

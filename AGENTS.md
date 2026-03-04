@@ -30,7 +30,7 @@ If you are editing reference docs, validate links manually and ensure code examp
 
 When a user asks about building integrations with Paragon, the agent should:
 
-1. Load the skill via the `build-with-paragon` skill loader.
+1. Load the skill via the `paragon-skill` skill loader.
 2. Consult `SKILL.md` for the table of contents to find the right reference.
 3. Read the relevant `references/*.md` file(s) for API details, code examples, and checklists.
 

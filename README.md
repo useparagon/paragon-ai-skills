@@ -16,7 +16,7 @@ provides your agent context with everything it needs to:
 
 1. Setup the Paragon SDK 
 2. Add the Connect Portal to authenticate your users 
-3. Get started with ActionKit and/or Managed Sync to build any integration use case.
+3. Get started with [ActionKit](https://useparagon.com/product/actionkit) and/or [Managed Sync](https://useparagon.com/product/managed-sync) to build any integration use case.
 
 Whether you're a new or existing Paragon user, give your coding agent the Paragon Skill to build new integration features or add to existing ones.
 
@@ -68,6 +68,6 @@ Setup the Paragon SDK in my project
 Build an integration card for Google Drive
 ```
 
-* For users who have already built a few integrations, prompt Paragon to use ActionKit and Managed Sync for your unique use case.
+* For users who have already built a few integrations, prompt Paragon to use [ActionKit](https://useparagon.com/product/actionkit) and [Managed Sync](https://useparagon.com/product/managed-sync) for your unique use case.
 
 ![Paragon Skill Trigger](/assets/opencode-skill-trigger.png)

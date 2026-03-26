@@ -25,7 +25,7 @@ If you're setting up Paragon for the first time, use this Skill to get up and ru
 
 ## Getting Started
 
-### Installing via the Skills CLI
+### Installing via the Skills CLI (Recommended method)
 The `npx skills` CLI by vercel automatically adds the Paragon Skill for the most popular agentic IDEs.
 See the manual installation section if needed.
 ```
@@ -39,7 +39,7 @@ npx skills update
 ```
 
 
-### Manual installation (Skip this if installing via Skills CLI)
+#### Manual installation (Skip this if installing via Skills CLI)
 1. Clone this repo
 
 2. Copy the `skills/paragon-skill` directory

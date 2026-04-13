@@ -11,13 +11,13 @@
 ---
 
 # Paragon Skills
-Agents can **setup your integrations** in just minutes with Paragon Skills. The Paragon Skill provides your agent context with everything it needs to:
+Agents can **set up your integrations** in just minutes with Paragon Skills. The Paragon Skill provides your agent context with everything it needs to:
 
-1. Setup the Paragon SDK 
+1. Set up the Paragon SDK
 
 2. Add the Connect Portal to authenticate your users 
 
-3. Get started with [ActionKit](https://useparagon.com/product/actionkit) and/or [Managed Sync](https://useparagon.com/product/managed-sync) to build any integration use case.
+3. Get started with [ActionKit](https://useparagon.com/product/actionkit), [Managed Sync](https://useparagon.com/product/managed-sync), and [Workflows](https://docs.useparagon.com/workflows/overview) to build any integration use case.
 
 If you're setting up Paragon for the first time, use this Skill to get up and running with your integrations.
 
@@ -25,49 +25,56 @@ If you're setting up Paragon for the first time, use this Skill to get up and ru
 
 ## Getting Started
 
-### Installing via the Skills CLI (Recommended method)
-The `npx skills` CLI by vercel automatically adds the Paragon Skill for the most popular agentic IDEs.
-See the manual installation section if needed.
-```
+### Recommended: Installing via the Skills CLI
+The `npx skills` CLI by Vercel automatically adds the Paragon Skill for the most popular agentic IDEs.
+
+```bash
 npx skills add useparagon/paragon-skills
 ```
 
-Update the Paragon Skill with the following command
+Update the Paragon Skill with the following command:
 
-```
+```bash
 npx skills update
 ```
 
 
-### Manual installation (Skip this if installing via Skills CLI)
-1. Navigate to the **skills** directory of your agentic IDE
+### Alternative: Manual Installation
+1. Navigate to the `skills/` directory for your agentic IDE of choice, e.g.
 
-```javascript
-//for example
+```bash
 ~/.cursor/skills/
 ~/.claude/skills/
 ~/.agents/skills/
 ~/.config/opencode/skills/
 ```
 
-2. Clone this repo
+2. Clone the [Paragon Skills Repo](https://github.com/useparagon/paragon-skills) in the `skills/` directory:
 
-## Start Prompting With The Skill
-You agent should naturally detect when the Paragon Skill is needed.
+```bash
+git clone https://github.com/useparagon/paragon-skills.git
+```
 
-In some cases, it may be useful to reference the skill directly by name (i.e. "Using the Paragon Setup Skill...").
+## Using the Skill
+Your agent should naturally detect when the Paragon Skill is needed.
+
+In some cases, it may be useful to reference the skill directly by name (i.e. "Using the Paragon Setup Skill..." or "/paragon-setup-skill").
 
 ### Starter Prompts
 
 ```markdown
-Set up the Paragon SDK in my project
+/paragon-setup-skill Look at my app and set up the Paragon SDK, including all dependencies and required setup steps.
+
+I will provide the following environment variables for your reference:
+- `PARAGON_PROJECT_ID`: The Paragon Project UUID.
+- `PARAGON_SIGNING_KEY`: The Signing Key as a PKCS8-encoded private key.
 ```
 
 ```markdown
-Build an integration card for Google Drive
+/paragon-setup-skill Build an integration catalog for the integrations defined in my Paragon project.
 ```
 
 ```markdown
-Set up auth for my Paragon integrations
+/paragon-setup-skill Set up auth for using the Paragon SDK.
 ```
 

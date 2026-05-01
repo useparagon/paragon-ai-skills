@@ -7,7 +7,7 @@ description: Skill for using Paragon's ActionKit API for 3rd-party actions like 
 Use this Skill to help the user implement ActionKit API calls in their code, by using the references in the Table of Contents
 
 ## ActionKit Overview
-ActionKit is an API that provides useful abstracted actions that work with your users' integration and run on their behalf.
+ActionKit exposes thousands of pre-built Tools (actions in a third-party system) and Triggers (events in a third-party system) across integrations through one consistent interface.
 
 Some examples of ActionKit actions are: 
 - `NOTION_CREATE_PAGE`

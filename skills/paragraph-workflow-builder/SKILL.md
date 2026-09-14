@@ -13,11 +13,12 @@ description: >-
 
 ## When to use
 
-Use for **workflow definitions** in a Paragraph repo: files under `src/integrations/<integration>/workflows/`, triggers, steps, branching, and wiring to the Paragon dashboard. For **integration config** only (`config.ts` / `inputs.ts`), use the project skill **paragon-paragraph-custom-integrations**.
+Use for **workflow definitions** in a Paragraph repo: files under `src/integrations/<integration>/workflows/`, triggers, steps, branching, and wiring to the Paragon dashboard. If the user also needs to edit integration config files like `config.ts` or `inputs.ts`, use the generated integration types plus the official Paragraph docs; this skill stays focused on workflow code.
 
 **Official references**
 
 - [Defining workflows](https://docs.useparagon.com/paragraph/defining-workflows) — structure, orchestration, conditions, fan-out, reusing steps.
+- [Defining integrations](https://docs.useparagon.com/paragraph/defining-integrations) — integration-level `config.ts` / `inputs.ts`.
 - [@useparagon/core glossary](https://docs.useparagon.com/paragraph/reference/useparagon-core) — triggers and step constructors, inputs/outputs.
 - Doc index for deeper pages: [llms.txt](https://docs.useparagon.com/llms.txt).
 
@@ -132,6 +133,25 @@ Runs sandboxed code: must be **self-contained**; pass data via **`parameters`**.
 ## Reusing steps across workflows
 
 Put shared helpers under a top-level **`src/<something>/`** folder **not** named `integrations` (e.g. `src/common/`), export step factories, import from workflows. See [Reusing steps](https://docs.useparagon.com/paragraph/defining-workflows#reusing-steps). For secrets inside shared code, patterns using `Execution` appear in the same doc page.
+
+---
+
+## Build, pull, and push safely
+
+When maintaining a Paragraph repo around workflow changes:
+
+```bash
+npm install -g @useparagon/cli
+para install --sync-versions
+para build
+```
+
+- Run **`para install --sync-versions`** before building when the local CLI or generated packages may be out of date with the project.
+- Run **`para build`** after workflow or config edits to catch TypeScript and serialization issues before syncing.
+- Prefer Git Sync when a Paragraph repo should stay continuously aligned with a Paragon project.
+- Commit pending local changes before **`para pull`**; it can overwrite local edits and remove integrations or workflows that are absent from the dashboard source.
+- **`para push`** overwrites dashboard copies of workflows, cannot target a different project ID, and does not push directly to staging or production release environments.
+- Do not hand-edit `project.json` or generated build artifacts like `out/build.json` to move work between projects or environments.
 
 ---
 

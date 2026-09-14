@@ -18,11 +18,32 @@ For file storage integration data, the Permissions API is an API to check permis
 of any synced file. Paragon manages a graph database behind the scenes, so developers 
 can get and check up-to-date permissions without managing that data.
 
+Some Managed Sync integrations have integration-specific behavior that should change the implementation advice you give:
+- SharePoint file syncs can use `useWebhooks: true` for near-real-time record and permission updates.
+- SharePoint can also attach document-library metadata to synced files with `includeMetadata: true`.
+
 When helping with RAG or search implementations, guide the user toward the right Permissions API pattern:
 - For smaller result sets, `List Objects` is usually enough
 - For users with access to more than 1000 objects in one Sync, prefer `Streamed List Objects`
 - For users with multiple Permission Syncs that should be queried together, prefer `Streamed List Objects (All Syncs)`
 - For ranked search results, `Batch Check Access` is usually the right post-filtering step
+
+## Webhook handling
+
+When helping a user consume Managed Sync webhooks, call out the current delivery contract instead of treating them as generic event POSTs:
+
+- Paragon verifies a webhook URL before saving it by sending a `POST` with `{ "id": "...", "event": "webhook_verification" }`. The endpoint must return a 2xx status, and this verification payload is not a Sync event.
+- Managed Sync delivers webhooks at least once. The top-level payload `id` is stable across retries, so use it as the deduplication key.
+- `sync_errored` is reserved for non-recoverable errors. Transient failures like rate limits, temporary network errors, and expired access tokens are retried automatically and do not emit `sync_errored`.
+- Error payloads now include a stable `error.code`. Credential-related errors usually mean the user needs to reconnect the integration through the Connect Portal.
+
+## Integration-specific guidance
+
+### SharePoint
+- If the user needs low-latency search, retrieval, or permission updates, recommend `useWebhooks: true` on the SharePoint sync so Paragon uses Microsoft change notifications instead of waiting for the next incremental sync.
+- When SharePoint is used with the Permissions API, call out that `Sites.Read.All`, `Files.Read.All`, `User.ReadBasic.All`, and `GroupMember.Read.All` should be configured as **Application Permissions** in Azure AD. If the user also wants real-time sharing or permission-change updates, they must add `Sites.FullControl.All` as an Application Permission too.
+- `User.ReadBasic.All` and `GroupMember.Read.All` are optional if the user only needs file content syncs, but they are needed for organization and group-based permission updates.
+- If the user wants SharePoint custom columns or document-library metadata inside synced file records, set `includeMetadata: true` and read the values from `customFields.metadata`.
 
 ## Prerequisites
 Managed Sync is built on top of Paragon's managed authentication and monitoring. When using any Sync APIs or Permissions APIs, 
@@ -68,3 +89,7 @@ Before helping the user implement Managed Sync, it's best to have the Paragon SD
 - Stream accessible object IDs from a single Permission Sync when result sets are large: [Streamed List Objects](https://docs.useparagon.com/managed-sync/api/streamed-list-objects)
 - Stream accessible object IDs across all of a Connected User's Permission Syncs: [Streamed List Objects (All Syncs)](https://docs.useparagon.com/managed-sync/api/streamed-list-objects-all-syncs)
 - Get all users and group relationships associated with an object by role: [Expand Relationship](https://docs.useparagon.com/managed-sync/api/expand)
+
+### Integration-specific docs
+- SharePoint sync setup, real-time updates, and metadata behavior: [SharePoint integration docs](https://docs.useparagon.com/managed-sync/integrations/sharepoint)
+- OneDrive sync setup and scope requirements: [OneDrive integration docs](https://docs.useparagon.com/managed-sync/integrations/onedrive)

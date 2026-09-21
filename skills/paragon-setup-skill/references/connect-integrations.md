@@ -80,6 +80,15 @@ The `paragon.connect` method is used to bring up the Connect Portal
 paragon.connect("salesforce", {}); //replace salesforce with any integration type (found in the integration metadata
 ```
 
+If the integration uses Custom Dropdown user settings in the Connect Portal:
+
+- For a fixed option list, pass `dropdowns` inline with `paragon.connect(...)`.
+- For larger datasets, use a `loadOptions(cursor, search)` loader so the Portal can paginate and search remote options.
+- If options can change between sessions, set `refreshOnOpen: true` so the SDK reloads them each time the dropdown opens.
+- If users can choose options that only appear in search results, add `resolveOption(value)` so the Portal can recover the saved label after a reload instead of showing a blank value.
+
+See the docs for [Custom Dropdowns](https://docs.useparagon.com/connect-portal/workflow-user-settings/custom-dropdowns) and the [SDK API Reference](https://docs.useparagon.com/apis/api-reference#setdatasources) if the developer is building a headless Connect Portal.
+
 #### Step 3: Displaying account state and subscribing to changes
 If the user wants the status of an integration (if the end-user has connected to an integration or not), they can use `paragon.getUser()`
 
@@ -138,6 +147,8 @@ function MyComponent() {
   }, [paragon]);
 }
 ```
+
+If the developer is using Multi-Account Authorization, mention that `onIntegrationInstall` / `onIntegrationUninstall` handlers now receive the installed account's `credentialId` and `credential` details in the event payload. Use those event fields when the app needs to react to the specific account that changed instead of only refreshing aggregate user state.
 
 After a user connects an integration, you can now use ActionKit, Managed Sync, or Workflows to interact with 
 the 3rd-party API on their behalf!

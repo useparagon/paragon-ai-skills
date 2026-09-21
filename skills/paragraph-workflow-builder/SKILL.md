@@ -13,12 +13,15 @@ description: >-
 
 ## When to use
 
-Use for **workflow definitions** in a Paragraph repo: files under `src/integrations/<integration>/workflows/`, triggers, steps, branching, and wiring to the Paragon dashboard. For **integration config** only (`config.ts` / `inputs.ts`), use the project skill **paragon-paragraph-custom-integrations**.
+Use for **workflow definitions** in a Paragraph repo: files under `src/integrations/<integration>/workflows/`, triggers, steps, branching, and wiring to the Paragon dashboard. For nearby **integration config** files (`config.ts` / `inputs.ts`), stay in this skill and use Paragraph's integration-definition docs plus the release notes when config surface details matter.
 
 **Official references**
 
 - [Defining workflows](https://docs.useparagon.com/paragraph/defining-workflows) — structure, orchestration, conditions, fan-out, reusing steps.
 - [@useparagon/core glossary](https://docs.useparagon.com/paragraph/reference/useparagon-core) — triggers and step constructors, inputs/outputs.
+- [Build and Push](https://docs.useparagon.com/paragraph/build-and-push) — `para build`, `para pull`, `para push`, and reconciliation rules.
+- [Update Guide](https://docs.useparagon.com/paragraph/reference/update-guide) — keeping the CLI and core packages in sync.
+- [Paragraph release notes](https://docs.useparagon.com/changelog/paragraph) — recent CLI/codegen fixes that explain pull/build regressions.
 - Doc index for deeper pages: [llms.txt](https://docs.useparagon.com/llms.txt).
 
 ---
@@ -29,6 +32,25 @@ Use for **workflow definitions** in a Paragraph repo: files under `src/integrati
 2. New workflow files live in **`src/integrations/<integration>/workflows/`**.
 3. Keep **`readonly id`** as generated; Paragon maintains it.
 4. List workflow classes in that integration’s **`config.ts`** in **`workflowDisplayOrder`** so they appear in the Connect Portal and dashboard.
+
+---
+
+## Keep the Paragraph toolchain current
+
+When a repo's generated workflow code, imports, or config types look wrong, update the local Paragraph toolchain before hand-editing generated output:
+
+1. Update the CLI: `npm install -g @useparagon/cli`
+2. Sync the project packages: `para install --sync-versions`
+
+Recent Paragraph releases fixed `para pull` import generation, ESM/type export issues, and `para push` diff/debug tooling. If generated code suddenly starts failing type-checks after a pull, prefer syncing versions first.
+
+---
+
+## Build / pull / push hygiene
+
+- Use `para build` to validate the project and regenerate `out/build.json` locally before pushing workflow changes.
+- Commit or stash local edits before `para pull`; the pull can overwrite local files and remove integrations or workflows that no longer exist in the dashboard source.
+- Use `para push` only for the linked development project. To move changes to staging or production, create a release in Paragon rather than editing `project.json` or `build.json`.
 
 ---
 

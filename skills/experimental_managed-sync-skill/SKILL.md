@@ -24,6 +24,17 @@ When helping with RAG or search implementations, guide the user toward the right
 - For users with multiple Permission Syncs that should be queried together, prefer `Streamed List Objects (All Syncs)`
 - For ranked search results, `Batch Check Access` is usually the right post-filtering step
 
+## SharePoint-specific guidance
+
+When the user is implementing **SharePoint** Managed Syncs, check for the newer real-time and metadata options before suggesting a default configuration:
+
+- [ ] For **Permissions API** on SharePoint, make sure the Azure AD app uses **Application Permissions** (not Delegated Permissions) for `Sites.Read.All`, `Files.Read.All`, `User.ReadBasic.All`, and `GroupMember.Read.All`
+- [ ] If the user needs to index **sharing-link access** or receive **real-time permission/file updates**, also request `Sites.FullControl.All`
+- [ ] Mention `useWebhooks: true` when the user needs low-latency updates instead of periodic incremental syncs
+- [ ] Mention `includeMetadata: true` when the user needs SharePoint list-item columns in synced file payloads under `customFields.metadata`
+- [ ] Call out the tradeoff that `includeMetadata` adds an extra Graph `listItem` request per synced file
+- [ ] If `useWebhooks` is enabled, note that webhook-backed permission change coverage depends on the optional `Sites.FullControl.All` scope
+
 ## Prerequisites
 Managed Sync is built on top of Paragon's managed authentication and monitoring. When using any Sync APIs or Permissions APIs, 
 a JWT with a unique end-user ID is required so that Paragon knows which end-users data to sync.

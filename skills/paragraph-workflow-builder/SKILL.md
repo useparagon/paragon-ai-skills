@@ -13,7 +13,7 @@ description: >-
 
 ## When to use
 
-Use for **workflow definitions** in a Paragraph repo: files under `src/integrations/<integration>/workflows/`, triggers, steps, branching, and wiring to the Paragon dashboard. For **integration config** only (`config.ts` / `inputs.ts`), use the project skill **paragon-paragraph-custom-integrations**.
+Use for **workflow definitions** in a Paragraph repo: files under `src/integrations/<integration>/workflows/`, triggers, steps, branching, and wiring to the Paragon dashboard. If the change is in the same Paragraph repo but lives in **`config.ts`** or **`inputs.ts`**, stay in that repo and update the local integration configuration directly: verify exported inputs, auth/provider configuration, and `workflowDisplayOrder` together with the workflow changes instead of looking for a separate skill.
 
 **Official references**
 
@@ -29,6 +29,20 @@ Use for **workflow definitions** in a Paragraph repo: files under `src/integrati
 2. New workflow files live in **`src/integrations/<integration>/workflows/`**.
 3. Keep **`readonly id`** as generated; Paragon maintains it.
 4. List workflow classes in that integration’s **`config.ts`** in **`workflowDisplayOrder`** so they appear in the Connect Portal and dashboard.
+
+## Project lifecycle commands
+
+- Keep the CLI and generated package versions aligned when upgrading a Paragraph repo:
+
+```bash
+npm install -g @useparagon/cli
+para install --sync-versions
+```
+
+- Validate locally with **`para build`** before pushing changes. A successful build writes the upload artifact to **`out/build.json`**.
+- Use **`para push`** only for one-off uploads to the linked development project. It overwrites previously pushed workflow definitions and cannot target a different Project ID, Staging, or Production directly.
+- Before running **`para pull`**, commit or stash local work. Pull can overwrite uncommitted files and remove integrations or workflows that no longer exist in the dashboard source.
+- Prefer **Git Sync** for ongoing bidirectional sync between the Paragraph repo and Paragon because it preserves change history and makes add/remove operations easier to reconcile.
 
 ---
 

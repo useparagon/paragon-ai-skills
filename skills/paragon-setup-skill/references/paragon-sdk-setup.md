@@ -56,6 +56,19 @@ await paragon.authenticate(
 );
 ```
 
+  - If the developer wants Connected User metadata available in Paragon immediately, they can pass a third argument to `paragon.authenticate`:
+
+```typescript
+await paragon.authenticate("project-id", userToken, {
+  metadata: {
+    Name: user.fullName,
+    Email: user.email,
+    AccountType: user.plan,
+  },
+});
+```
+
+  - This metadata can also be updated later with `paragon.setUserMetadata(...)`. `Name` and `Email` are special case-sensitive keys shown in the Connected Users dashboard.
   - If the developer has an **on-prem/self-hosted** instance, they will also need to configure Paragon with their unique hostname
 
 ```typescript
